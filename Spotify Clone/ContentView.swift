@@ -15,18 +15,25 @@ struct ContentView: View {
     @State private var products: [Product] = []
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach (products) { product in
-                    Text(product.title).foregroundStyle(.spotifyGreen)
-                }
-                
+        TabView {
+            SpotifyHomeView() .tabItem {
+                Label("Home", systemImage: "house.fill")
+            }
+            
+            Text("Search").tabItem {
+                                Label("Search", systemImage: "magnifyingglass")
+                            }
+                        
+            Text("Library").tabItem {
+                                Label("Library", systemImage: "books.vertical.fill")
+                            }
+            Text("Premium").tabItem {
+                Label("Premium", systemImage: "star.fill")
             }
         }
-        .padding()
-        .task {
-            await getData()
-        }
+        .accentColor(.spotifyGreen) // Highlight color for selected tab
+        .background(Color.spotifyBlack.ignoresSafeArea())
+        .preferredColorScheme(.dark) // Force dark mode for this view
     }
     
     private func getData() async {
