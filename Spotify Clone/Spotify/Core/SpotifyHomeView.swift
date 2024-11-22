@@ -7,8 +7,11 @@
 
 import SwiftUI
 import SwiftfulUI
+import SwiftfulRouting
 
 struct SpotifyHomeView: View {
+    
+    @Environment(\.router) var router
     
     @State private var currentUser: User?  = nil
     @State private var selectedCategory: Category? =  nil
@@ -39,7 +42,7 @@ struct SpotifyHomeView: View {
                                             HStack {
                                                 ForEach(row.products) { product in
                                                     ImageTitleRowCell(imageSize: 140, imageName: product.firstImage, title: product.title).asButton(.press) {
-                                                        
+                                                        goToPlayListView(product: product)
                                                     }
                                                 }
                                             }.padding(.top, 8)
@@ -108,8 +111,20 @@ struct SpotifyHomeView: View {
         NonLazyVGrid(columns: 2, alignment: .center, items: products) {
             product in
             if let product {
-                SpotifyRecentCell(ImageName: product.firstImage, title: product.title)
+                SpotifyRecentCell(ImageName: product.firstImage, title: product.title).asButton(.press) {
+                    goToPlayListView(product: product)
+                }
             }
+        }
+    }
+    
+    
+    private func goToPlayListView(product: Product) {
+        
+        guard let currentUser else { return }
+        
+        router.showScreen(.push) { _ in
+            SpotifyPlaylist(product: product, user: currentUser)
         }
     }
     
@@ -123,11 +138,14 @@ struct SpotifyHomeView: View {
             subTitle: firstProduct.description) {
                 
             } onPlayPressed: {
-                
+                goToPlayListView(product: firstProduct)
             }
     }
 }
 
 #Preview {
-    SpotifyHomeView()
+    RouterView { _ in
+        SpotifyHomeView()
+    }
+
 }

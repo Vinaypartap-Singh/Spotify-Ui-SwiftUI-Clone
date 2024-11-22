@@ -20,14 +20,14 @@ struct ContentView: View {
                 Label("Home", systemImage: "house.fill")
             }
             
-            Text("Search").tabItem {
+            SearchView().tabItem {
                                 Label("Search", systemImage: "magnifyingglass")
                             }
                         
-            Text("Library").tabItem {
+            LibraryView().tabItem {
                                 Label("Library", systemImage: "books.vertical.fill")
                             }
-            Text("Premium").tabItem {
+            PremiumView().tabItem {
                 Label("Premium", systemImage: "star.fill")
             }
         }

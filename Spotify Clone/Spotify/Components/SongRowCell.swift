@@ -39,6 +39,9 @@ struct SongRowCell: View {
                 .onTapGesture {
                      
                 }
+        }.background(Color.black.opacity(0.001)).onTapGesture {
+            print("Cell Pressesd")
+            onCellPressed?()
         }
     }
 }
